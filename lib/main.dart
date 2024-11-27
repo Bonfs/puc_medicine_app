@@ -39,21 +39,15 @@ class MyApp extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.blue,
                 ),
-                child: Text('Drawer Header'),
+                child: Text('Matheus Bonfim'),
               ),
               ListTile(
-                title: const Text('Item 1'),
-                onTap: () {
-                  // Update the state of the app.
-                  // ...
-                },
+                title: const Text('Perfil'),
+                onTap: () {},
               ),
               ListTile(
-                title: const Text('Item 2'),
-                onTap: () {
-                  // Update the state of the app.
-                  // ...
-                },
+                title: const Text('Sair'),
+                onTap: () {},
               ),
             ],
           ),
