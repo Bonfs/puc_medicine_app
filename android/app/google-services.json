@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "317708209514",
+    "project_id": "pos-medicine-app",
+    "storage_bucket": "pos-medicine-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:317708209514:android:a23a2f8626ca928e606913",
+        "android_client_info": {
+          "package_name": "com.example.lembrete_remedio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "317708209514-riaaad13mgpq2ebnlmihfmcdkqr112so.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEbTdxqNHFYEDGC_Sy4iUr8AIZGoF5s7o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "317708209514-riaaad13mgpq2ebnlmihfmcdkqr112so.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "317708209514-6od7fntceabavsvm7huf4okr4u3gg99b.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.lembreteRemedio"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

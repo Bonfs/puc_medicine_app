@@ -1,13 +1,19 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:lembrete_remedio/ui/common/widgets.dart';
 import 'package:lembrete_remedio/ui/core/app_view_model.dart';
 import 'package:lembrete_remedio/ui/screens/home_screen/views.dart';
+import 'package:lembrete_remedio/ui/screens/sign_in/sign_in_screen.dart';
 import 'package:provider/provider.dart';
 
-void main() => runApp(ChangeNotifierProvider(
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(ChangeNotifierProvider(
       create: (context) => AppViewModel(),
       child: const MyApp(),
-    ));
+    )
+  );
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -20,12 +26,11 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
         useMaterial3: true,
       ),
-      home: const Scaffold(
-        appBar: CustomAppBar(),
-        drawer: HomeDrawer(),
-        body: HomeScreen(),
-        floatingActionButton: HomeFloatingButton(),
-      ),
+      initialRoute: '/sign_in',
+      routes: {
+        '/home': (context) => const HomeScreen(),
+        '/sign_in': (context) => SignInScreen(),
+      },
     );
   }
 }
