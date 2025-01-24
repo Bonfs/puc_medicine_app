@@ -1,30 +1,28 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class SignInScreen extends StatelessWidget {
+class SignUpScreen extends StatelessWidget {
   final _auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
-  SignInScreen({super.key});
   
+  SignUpScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-
-    Future<void> _login() async {
+    Future<void> _register() async {
       try {
-        UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
         );
-        // Login bem-sucedido
+        // Registro bem-sucedido
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Bem-vindo, ${userCredential.user?.email}!')),
+          SnackBar(content: Text('Usuário registrado: ${userCredential.user?.email}!')),
         );
-        Navigator.pushReplacementNamed(context, '/home');
       } catch (e) {
-        // Erro no login
+        // Erro no registro
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Erro: ${e.toString()}')),
         );
@@ -33,7 +31,8 @@ class SignInScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sign In'),
+        title: const Text('Sign Up'),
+      
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -67,11 +66,6 @@ class SignInScreen extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 24.0),
-              TextButton(
-                onPressed: () => Navigator.pushReplacementNamed(context, '/sign_up'),
-                child: const Text('Não possui conta? Clique aqui')
-              ),
-              const SizedBox(height: 8.0),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -84,14 +78,14 @@ class SignInScreen extends StatelessWidget {
                 
                       // TODO: Implement actual authentication logic
                       print('Email: $email, Password: $password');
-                      _login();
+                      _register();
                 
                 
                       // Example navigation after successful sign-in
                       // Navigator.pushReplacementNamed(context, '/home');
                     }
                   },
-                  child: const Text('ENTRAR'),
+                  child: const Text('CRIAR CONTA'),
                 ),
               ),
             ],

@@ -2,7 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:lembrete_remedio/ui/core/app_view_model.dart';
 import 'package:lembrete_remedio/ui/screens/home_screen/views.dart';
-import 'package:lembrete_remedio/ui/screens/sign_in/sign_in_screen.dart';
+import 'package:lembrete_remedio/ui/screens/sign_in/views.dart';
+import 'package:lembrete_remedio/ui/screens/sign_up/views.dart';
+import 'package:lembrete_remedio/ui/screens/splash/views.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -26,10 +28,12 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
         useMaterial3: true,
       ),
-      initialRoute: '/sign_in',
+      initialRoute: '/splash',
       routes: {
+        '/splash': (context) => const SplashScreen(),
         '/home': (context) => const HomeScreen(),
         '/sign_in': (context) => SignInScreen(),
+        '/sign_up': (context) => SignUpScreen(),
       },
     );
   }

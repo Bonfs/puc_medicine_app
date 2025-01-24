@@ -1,0 +1,1 @@
+export 'package:lembrete_remedio/ui/screens/splash/splash_screen.dart';
