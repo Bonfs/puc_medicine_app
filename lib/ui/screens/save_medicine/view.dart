@@ -1,0 +1,1 @@
+export 'package:lembrete_remedio/ui/screens/save_medicine/save_medicine_screen.dart';
