@@ -21,6 +21,16 @@ class _SaveMedicineScreenState extends State<SaveMedicineScreen> {
   }
 
   final medicineNameController = TextEditingController();
+  final timeController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
+
+  @override
+  void dispose() {
+    super.dispose();
+    medicineNameController.dispose();
+    timeController.dispose();
+    _focusNode.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,21 +56,30 @@ class _SaveMedicineScreenState extends State<SaveMedicineScreen> {
                   },
                 ),
                 const SizedBox(height: 16),
-                const Text('Nome da medicação'),
-                ElevatedButton(
-                  onPressed: () async {
+                const Text('Horário da medicação'),
+                TextFormField(
+                  controller: timeController,
+                  decoration: const InputDecoration(labelText: 'HH:MM'),
+                  focusNode: _focusNode,
+                  onTap: () async {
                       _selectedTime24Hour = await showTimePicker(
-                      context: context,
-                      initialTime: TimeOfDay(hour: _now.hour, minute: _now.minute),
-                      builder: (BuildContext context, Widget? child) {
-                        return MediaQuery(
-                          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-                          child: child!,
-                        );
-                      },
-                    );
+                        context: context,
+                        initialTime: TimeOfDay(hour: _now.hour, minute: _now.minute),
+                        builder: (BuildContext context, Widget? child) {
+                          return MediaQuery(
+                            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+                            child: child!,
+                          );
+                        },
+                      );
+                      if (_selectedTime24Hour != null) timeController.text = "${_selectedTime24Hour!.hour}:${_selectedTime24Hour!.minute}";
+                      _focusNode.unfocus();
                   },
-                  child: const Text('Close BottomSheet'),
+                ),
+                const SizedBox(height: 24,),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: const Text('Criar lembrete'),
                 ),
               ],
           ),
