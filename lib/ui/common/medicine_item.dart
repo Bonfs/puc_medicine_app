@@ -38,8 +38,8 @@ class _MedicineBody extends StatelessWidget {
         color: Colors.amber,
         child: Center(child: Text('${_medicine.name} imagem')),
       ),
-      title: const Text('Paracetamol'),
-      subtitle: const Text('A cada 8 horas.'),
+      title: Text(_medicine.name),
+      subtitle: Text('Todos os dias às ${_medicine.time.format(context)}'),
     
     );
   }

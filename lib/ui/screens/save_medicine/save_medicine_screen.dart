@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:lembrete_remedio/main.dart';
+import 'package:lembrete_remedio/models/models.dart';
 import 'package:provider/provider.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 import '../../core/core.dart';
 
@@ -30,6 +34,49 @@ class _SaveMedicineScreenState extends State<SaveMedicineScreen> {
     medicineNameController.dispose();
     timeController.dispose();
     _focusNode.dispose();
+  }
+
+  Future<void> scheduleDailyAlarm(Medicine medicine) async {
+    // Configuração da notificação para Android
+    const AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
+      'daily_alarm_channel', // ID do canal
+      'Alarme Diário', // Nome do canal
+      channelDescription: 'Notificação para alarme diário',
+      importance: Importance.max,
+      priority: Priority.high,
+      ticker: 'ticker',
+    );
+
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    // Converta o TimeOfDay para DateTime
+    final now = DateTime.now();
+    final alarmTime = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      medicine.time.hour,
+      medicine.time.minute,
+    );
+
+    // Se o horário já passou hoje, agende para o próximo dia
+    final scheduleTime = alarmTime.isBefore(now)
+        ? alarmTime.add(const Duration(days: 1))
+        : alarmTime;
+
+    // Agendar a notificação diária
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+      0, // ID da notificação
+      'TOMAR REMÉDIO', // Título
+      'Está na hora de tomar o remédio ${medicine.name}', // Corpo da notificação
+      tz.TZDateTime.from(scheduleTime, tz.local),
+      platformChannelSpecifics,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+      matchDateTimeComponents: DateTimeComponents.time, // Repetição diária
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle, 
+    );
   }
 
   @override
@@ -72,13 +119,22 @@ class _SaveMedicineScreenState extends State<SaveMedicineScreen> {
                           );
                         },
                       );
-                      if (_selectedTime24Hour != null) timeController.text = "${_selectedTime24Hour!.hour}:${_selectedTime24Hour!.minute}";
+                      if (_selectedTime24Hour != null) {
+                        timeController.text = "${_selectedTime24Hour!.hour}:${_selectedTime24Hour!.minute}";
+                      } 
                       _focusNode.unfocus();
                   },
                 ),
                 const SizedBox(height: 24,),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (_selectedTime24Hour != null) {
+                      final newMedicine = Medicine(name: medicineNameController.text, time: _selectedTime24Hour!);
+                      state.startIntent(SaveMedicineIntent(newMedicine));
+                      scheduleDailyAlarm(newMedicine);
+                    }
+                    closeNavigator();
+                  },
                   child: const Text('Criar lembrete'),
                 ),
               ],

@@ -1,12 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:lembrete_remedio/main.dart';
 import 'package:lembrete_remedio/ui/core/app_view_model.dart';
 import 'package:lembrete_remedio/ui/common/widgets.dart';
 import 'package:lembrete_remedio/ui/screens/home_screen/home_drawer.dart';
 import 'package:lembrete_remedio/ui/screens/home_screen/home_floating_button.dart';
 import 'package:provider/provider.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        ?.requestNotificationsPermission();
+    });   
+ }
 
   @override
   Widget build(BuildContext context) {
