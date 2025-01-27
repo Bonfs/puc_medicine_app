@@ -129,7 +129,11 @@ class _SaveMedicineScreenState extends State<SaveMedicineScreen> {
                 ElevatedButton(
                   onPressed: () {
                     if (_selectedTime24Hour != null) {
-                      final newMedicine = Medicine(name: medicineNameController.text, time: _selectedTime24Hour!);
+                      final newMedicine = Medicine(
+                        name: medicineNameController.text, 
+                        time: _selectedTime24Hour!, 
+                        createdAt: DateTime.now().millisecondsSinceEpoch
+                      );
                       viewModel.startIntent(SaveMedicineIntent(newMedicine));
                       scheduleDailyAlarm(newMedicine);
                     }

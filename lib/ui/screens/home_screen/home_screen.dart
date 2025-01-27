@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
         body: ListView.separated(
           padding: const EdgeInsets.all(8),
           itemCount: viewModel.medicines.length,
-          itemBuilder: (BuildContext context, int index) => MedicineItem(viewModel.medicines[index]),
+          itemBuilder: (BuildContext context, int index) => MedicineItem(index, viewModel.medicines[index]),
           separatorBuilder: (BuildContext context, int index) => const Divider(),
         ),
         floatingActionButton: const HomeFloatingButton(),

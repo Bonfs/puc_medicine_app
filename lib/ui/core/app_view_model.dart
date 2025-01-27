@@ -30,6 +30,8 @@ class AppViewModel with ChangeNotifier {
         _handleSaveMedicine(intent);
         break;
       case DeleteMedicineIntent():
+        _handleDeleteMedicine(intent);
+        break;
       case GetRemoteMedicinesIntent():
         _handleGetRemoteMedicines();
         break;
@@ -44,7 +46,7 @@ class AppViewModel with ChangeNotifier {
     List<Medicine> medicines = [];
     for (var doc in querySnapshot.docs) {
       if (doc.data() != null) {
-        medicines.add(Medicine.fromMap(doc.data() as Map<String, dynamic>));
+        medicines.add(Medicine.fromMap(doc.data() as Map<String, dynamic>, doc.id));
       }
     } 
     _state = _state.copyWith(medicines: medicines, isLoading: false);
@@ -59,7 +61,22 @@ class AppViewModel with ChangeNotifier {
     .collection('medicines')
     .add(intent.newMedicine.toMap())
     .then((event) {
-      medicinesCopy.add(intent.newMedicine);
+      medicinesCopy.add(intent.newMedicine.copyWith(id: event.id));
+      _state = _state.copyWith(medicines: medicinesCopy);
+      notifyListeners();
+    });
+  }
+
+  void _handleDeleteMedicine(DeleteMedicineIntent intent) {
+    List<Medicine> medicinesCopy = List.from(_state.medicines);
+    final deletedMedicine = medicinesCopy.removeAt(intent.index);
+    _db
+    .collection('users')
+    .doc(_auth.currentUser!.uid)
+    .collection('medicines')
+    .doc(deletedMedicine.id)
+    .delete()
+    .then((_) {
       _state = _state.copyWith(medicines: medicinesCopy);
       notifyListeners();
     });
