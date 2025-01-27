@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:lembrete_remedio/main.dart';
+import 'package:lembrete_remedio/ui/core/app_intent.dart';
 import 'package:lembrete_remedio/ui/core/app_view_model.dart';
 import 'package:lembrete_remedio/ui/common/widgets.dart';
 import 'package:lembrete_remedio/ui/screens/home_screen/home_drawer.dart';
@@ -22,6 +23,8 @@ class _HomeScreenState extends State<HomeScreen> {
       flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
         ?.requestNotificationsPermission();
+      final viewModel = Provider.of<AppViewModel>(context, listen: false);
+      viewModel.startIntent(GetRemoteMedicinesIntent());
     });   
  }
 

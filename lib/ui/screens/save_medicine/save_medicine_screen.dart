@@ -83,7 +83,7 @@ class _SaveMedicineScreenState extends State<SaveMedicineScreen> {
   Widget build(BuildContext context) {
     void closeNavigator() => Navigator.pop(context);
 
-    return Consumer<AppViewModel>(builder: (context, state, child) {
+    return Consumer<AppViewModel>(builder: (context, viewModel, child) {
       return SizedBox(
         height: 500,
         child: Padding(
@@ -120,7 +120,7 @@ class _SaveMedicineScreenState extends State<SaveMedicineScreen> {
                         },
                       );
                       if (_selectedTime24Hour != null) {
-                        timeController.text = "${_selectedTime24Hour!.hour}:${_selectedTime24Hour!.minute}";
+                        timeController.text = _selectedTime24Hour!.format(context);
                       } 
                       _focusNode.unfocus();
                   },
@@ -130,7 +130,7 @@ class _SaveMedicineScreenState extends State<SaveMedicineScreen> {
                   onPressed: () {
                     if (_selectedTime24Hour != null) {
                       final newMedicine = Medicine(name: medicineNameController.text, time: _selectedTime24Hour!);
-                      state.startIntent(SaveMedicineIntent(newMedicine));
+                      viewModel.startIntent(SaveMedicineIntent(newMedicine));
                       scheduleDailyAlarm(newMedicine);
                     }
                     closeNavigator();

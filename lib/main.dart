@@ -13,15 +13,14 @@ final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
   // Configuração inicial para o Android
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
   const InitializationSettings initializationSettings =
       InitializationSettings(android: initializationSettingsAndroid);
-
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   tz.initializeTimeZones();
+  
   runApp(ChangeNotifierProvider(
       create: (context) => AppViewModel(),
       child: const MyApp(),
