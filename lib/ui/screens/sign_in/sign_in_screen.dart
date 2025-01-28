@@ -68,7 +68,7 @@ class SignInScreen extends StatelessWidget {
               ),
               const SizedBox(height: 24.0),
               TextButton(
-                onPressed: () => Navigator.pushReplacementNamed(context, '/sign_up'),
+                onPressed: () => Navigator.pushNamed(context, '/sign_up'),
                 child: const Text('Não possui conta? Clique aqui')
               ),
               const SizedBox(height: 8.0),
@@ -76,13 +76,11 @@ class SignInScreen extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () async {
-                    // _googleSignIn(context);
                     if (_formKey.currentState!.validate()) { // Validate the form
                       // Process sign-in logic here
                       String email = _emailController.text;
                       String password = _passwordController.text;
-                
-                      // TODO: Implement actual authentication logic
+                      
                       print('Email: $email, Password: $password');
                       _login();
                 
